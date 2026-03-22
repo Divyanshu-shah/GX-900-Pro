@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #050505;
+  --color-bg-secondary: #0A0A0C;
+  --color-bg-card: #0D0D10;
+  --color-bg-card-hover: #111117;
+  --color-neon-blue: #0050FF;
+  --color-neon-cyan: #00D6FF;
+  --color-neon-purple: #8B5CF6;
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  --container-padding: clamp(24px, 5vw, 80px);
+}
+
+@layer base {
+  :root {
+    --bg-primary: #050505;
+    --bg-secondary: #0a0a0c;
+    --bg-card: #0d0d10;
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-glow: rgba(0, 80, 255, 0.2);
+    --neon-blue: #0050ff;
+    --neon-cyan: #00d6ff;
+    --neon-purple: #8b5cf6;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --text-tertiary: rgba(255, 255, 255, 0.35);
+    
+    --nav-height: 64px;
+    --container-padding: clamp(24px, 5vw, 80px);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html,
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-cyan {
+    background: linear-gradient(135deg, var(--neon-cyan), #00ffd4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-purple {
+    background: linear-gradient(135deg, var(--neon-purple), #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  ::selection {
+    background: rgba(0, 80, 255, 0.3);
+    color: var(--text-primary);
+  }
+}
