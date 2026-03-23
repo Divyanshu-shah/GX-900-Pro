@@ -33,8 +33,6 @@ Here is a summary of the project's tech stack:
 | Frontend | React, Next.js, Tailwind CSS |
 | Backend | Node.js, Next.js API Routes |
 | Tools | Webpack, Babel, ESLint |
-| Database | MongoDB, PostgreSQL |
-| Testing | Jest, Cypress |
 
 📁 Project Structure
 ======================
