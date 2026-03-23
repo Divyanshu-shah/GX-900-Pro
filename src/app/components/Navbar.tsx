@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
+import LightningLogo from './LightningLogo';
 
 const navLinks = [
   { href: '#hero', label: 'Overview', id: 'hero' },
@@ -47,7 +49,7 @@ export default function Navbar() {
       <div className="max-w-[1400px] mx-auto h-full flex items-center justify-between px-6 lg:px-20">
         
         <a href="#" className="flex items-center gap-2 font-bold hover:opacity-80 transition-opacity">
-          <span className="text-lg drop-shadow-[0_0_8px_rgba(0,214,255,0.4)]">⚡</span>
+          <LightningLogo size={28} />
           <span>GX-900 Pro</span>
         </a>
 

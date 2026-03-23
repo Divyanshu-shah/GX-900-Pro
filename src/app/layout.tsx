@@ -16,6 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth`}>
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </head>
       <body className="font-sans antialiased text-white bg-[#050505]">
         {children}
       </body>
