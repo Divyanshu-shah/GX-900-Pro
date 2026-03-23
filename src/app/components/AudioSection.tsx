@@ -17,7 +17,7 @@ export default function AudioSection() {
     let wavePhase = 0;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const parent = canvas.parentElement;
       if (!parent) return;
       const w = Math.min(400, window.innerWidth - 40);
@@ -33,7 +33,7 @@ export default function AudioSection() {
         return;
       }
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const w = canvas.width;
       const h = canvas.height;
       ctx.clearRect(0, 0, w, h);
@@ -51,10 +51,9 @@ export default function AudioSection() {
         ctx.strokeStyle = layer.color;
         ctx.lineWidth = 1.5 * dpr;
         ctx.globalAlpha = layer.alpha;
-        ctx.shadowColor = layer.color;
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 0;
 
-        for (let x = 0; x < w; x++) {
+        for (let x = 0; x < w; x += 3) {
           const y = h / 2
             + Math.sin(x * layer.freq + wavePhase + idx * 1.2) * layer.amp * dpr
             + Math.sin(x * layer.freq * 2.1 + wavePhase * 1.4) * (layer.amp * 0.25) * dpr;

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-const PARTICLE_COUNT = 45;
+const PARTICLE_COUNT = 25; // Reduced from 45
 
 export default function ParticleNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,10 +14,26 @@ export default function ParticleNetwork() {
     if (!ctx) return;
 
     let animationFrameId: number;
-    const particles: any[] = [];
+    let isVisible = true;
+
+    // Visibility observer — pause when tab hidden or element off-screen
+    const handleVisibility = () => { isVisible = !document.hidden; };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      opacity: number;
+      hue: number;
+    }
+
+    const particles: Particle[] = [];
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5); // Cap DPR
       canvas.width = window.innerWidth * dpr;
       canvas.height = window.innerHeight * dpr;
       canvas.style.width = `${window.innerWidth}px`;
@@ -32,10 +48,10 @@ export default function ParticleNetwork() {
         particles.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          size: Math.random() * 2 + 0.5,
-          opacity: Math.random() * 0.3 + 0.05,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          size: Math.random() * 1.5 + 0.5,
+          opacity: Math.random() * 0.2 + 0.04,
           hue: Math.random() > 0.5 ? 210 : 190,
         });
       }
@@ -43,7 +59,12 @@ export default function ParticleNetwork() {
     };
 
     const loop = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (!isVisible) {
+        animationFrameId = requestAnimationFrame(loop);
+        return;
+      }
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const w = canvas.width;
       const h = canvas.height;
       const sw = w / dpr;
@@ -51,7 +72,9 @@ export default function ParticleNetwork() {
 
       ctx.clearRect(0, 0, w, h);
 
-      // Update and draw
+      // No shadowBlur — much cheaper
+      ctx.shadowBlur = 0;
+
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -61,41 +84,37 @@ export default function ParticleNetwork() {
         if (p.y < 0) p.y = sh;
         if (p.y > sh) p.y = 0;
 
-        ctx.save();
         ctx.globalAlpha = p.opacity;
         ctx.fillStyle = `hsl(${p.hue}, 100%, 70%)`;
-        ctx.shadowColor = `hsl(${p.hue}, 100%, 70%)`;
-        ctx.shadowBlur = 6;
         ctx.beginPath();
         ctx.arc(p.x * dpr, p.y * dpr, p.size * dpr, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
       });
 
-      // Connections
-      const maxDist = 100;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
+      // Connections — skip every other pair for perf
+      const maxDist = 90;
+      for (let i = 0; i < particles.length; i += 2) {
+        for (let j = i + 2; j < particles.length; j += 2) {
           const a = particles[i];
           const b = particles[j];
           const dx = a.x - b.x;
           const dy = a.y - b.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
+          const d = dx * dx + dy * dy; // skip sqrt
+          const maxDist2 = maxDist * maxDist;
 
-          if (d < maxDist) {
-            ctx.save();
-            ctx.globalAlpha = (1 - d / maxDist) * 0.05;
+          if (d < maxDist2) {
+            ctx.globalAlpha = (1 - d / maxDist2) * 0.04;
             ctx.strokeStyle = `hsl(${a.hue}, 80%, 60%)`;
             ctx.lineWidth = 0.5 * dpr;
             ctx.beginPath();
             ctx.moveTo(a.x * dpr, a.y * dpr);
             ctx.lineTo(b.x * dpr, b.y * dpr);
             ctx.stroke();
-            ctx.restore();
           }
         }
       }
 
+      ctx.globalAlpha = 1;
       animationFrameId = requestAnimationFrame(loop);
     };
 
@@ -103,14 +122,15 @@ export default function ParticleNetwork() {
 
     return () => {
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', handleVisibility);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <canvas 
-      ref={canvasRef} 
-      className="fixed inset-0 z-[1] pointer-events-none opacity-50"
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 z-[1] pointer-events-none opacity-40"
     />
   );
 }

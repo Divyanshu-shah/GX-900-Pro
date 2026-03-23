@@ -10,27 +10,23 @@ export default function HeroSection() {
     offset: ["start start", "end start"]
   });
 
-  // 3D Parallax Transformations
-  const scaleImage = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
-  const yImage = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  
-  const opacityText = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const yText = useTransform(scrollYProgress, [0, 0.4], [0, -100]);
-  const scaleText = useTransform(scrollYProgress, [0, 0.4], [1, 0.9]);
-  const rotateXText = useTransform(scrollYProgress, [0, 0.4], [0, 15]); // 3D Tilt
+  // Subtle parallax on scroll (within the single screen)
+  const scaleImage = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const opacityText = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const yText = useTransform(scrollYProgress, [0, 0.6], [0, -60]);
 
   return (
     <section 
       id="hero" 
       ref={containerRef}
-      className="relative w-full h-[150vh] overflow-visible"
+      className="relative w-full h-screen overflow-hidden"
     >
-      <div className="sticky top-0 w-full h-screen overflow-hidden [perspective:1000px]">
+      <div className="relative w-full h-full">
         
         {/* Background Image & Effects (Parallax depth) */}
         <motion.div 
           className="absolute inset-0 z-0 origin-center"
-          style={{ scale: scaleImage, y: yImage }}
+          style={{ scale: scaleImage }}
         >
           <motion.img 
             initial={{ scale: 1.08, opacity: 0 }}
@@ -49,12 +45,9 @@ export default function HeroSection() {
         <motion.div 
           style={{ 
             opacity: opacityText, 
-            y: yText, 
-            scale: scaleText,
-            rotateX: rotateXText,
-            transformStyle: "preserve-3d"
+            y: yText,
           }}
-          className="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-20 h-screen flex flex-col items-center text-center justify-end pb-[10vh] origin-bottom"
+          className="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-20 h-full flex flex-col items-center text-center justify-end pb-[10vh]"
         >
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
