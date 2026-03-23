@@ -109,12 +109,10 @@ export default function ScrollExperience() {
 
     drawWave();
 
-    // ─── GSAP defaults for GPU acceleration ───
-    const force3dDefaults = { force3d: true };
-
+    // ─── Main scroll-driven GSAP timeline ───
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        defaults: { ...force3dDefaults, ease: 'none' },
+        defaults: { ease: 'none' },
         scrollTrigger: {
           trigger: wrapperRef.current,
           start: 'top top',

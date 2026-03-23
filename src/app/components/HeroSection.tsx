@@ -28,15 +28,18 @@ export default function HeroSection() {
           className="absolute inset-0 z-0 origin-center"
           style={{ scale: scaleImage }}
         >
-          <motion.img 
+          <motion.video
             initial={{ scale: 1.08, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            src="/assets/images/headset-hero.png" 
-            alt="GX-900 Pro Gaming Headset" 
+            autoPlay
+            loop
+            muted
+            playsInline
             className="w-full h-full object-cover object-center"
-            fetchPriority="high"
-          />
+          >
+            <source src="/assets/images/vid.mp4" type="video/mp4" />
+          </motion.video>
           <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,rgba(5,5,5,0.2)_0%,rgba(5,5,5,0.85)_70%,rgba(5,5,5,1)_100%)]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full z-0 pointer-events-none opacity-100 bg-[radial-gradient(circle,rgba(0,80,255,0.12)_0%,transparent_70%)] animate-pulse" />
         </motion.div>

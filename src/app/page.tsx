@@ -12,6 +12,8 @@ import CtaSection from './components/CtaSection';
 import SpecsSection from './components/SpecsSection';
 import Footer from './components/Footer';
 import ParticleNetwork from './components/ParticleNetwork';
+import CustomCursor from './components/CustomCursor';
+import SectionDivider from './components/SectionDivider';
 
 // Scroll Progress component
 function ScrollProgress() {
@@ -41,23 +43,33 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
+    const timer = setTimeout(() => setLoading(false), 2200);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <main className="relative min-h-screen">
       <Preloader isLoading={loading} />
+      <CustomCursor />
       <Navbar />
       <ScrollProgress />
       <ParticleNetwork />
 
       <HeroSection />
       <ScrollExperience />
+
+      <SectionDivider accent="#0050ff" />
       <EngineeringSection />
+
+      <SectionDivider accent="#00d6ff" />
       <AudioSection />
+
+      <SectionDivider accent="#8b5cf6" />
       <PerformanceSection />
+
+      <SectionDivider accent="#0050ff" />
       <CtaSection />
+
       <SpecsSection />
       <Footer />
     </main>

@@ -91,9 +91,33 @@
   50% { transform: scaleY(0.6); opacity: 1; }
 }
 
+/* Shimmer effect for premium text highlights */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* GPU-accelerated transforms for scroll experience */
 .transform-gpu {
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
+}
+
+/* Custom cursor states */
+.cursor-hover {
+  width: 48px !important;
+  height: 48px !important;
+  border-color: #00d6ff !important;
+  mix-blend-mode: difference;
+}
+
+/* Hide default cursor on desktop when custom cursor is active */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a, button, [data-hover] {
+    cursor: none;
+  }
 }
